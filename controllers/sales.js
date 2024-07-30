@@ -552,29 +552,29 @@ exports.uploadReportsQueue = async (req, res, next) => {
   try {
     const reports = await UmbraSystemsReport.find({});
 
-    for (const report of reports) {
-      const { type, posDeviceId, data, createdAt } = report;
+    // for (const report of reports) {
+    //   const { type, posDeviceId, data, createdAt } = report;
 
-      if (type === 'product_sales') {
-        await umbraSystemsHelper.sendPosProductSales(data, {
-          apiKey,
-          deviceId: posDeviceId
-        });
-      } else if (type === 'grand_accumulated_sales') {
-        await umbraSystemsHelper.sendPosGrandAccumulatedSales(data, {
-          apiKey,
-          deviceId: posDeviceId
-        });
-      } else if (type === 'pos_transaction') {
-        await umbraSystemsHelper.sendPosTransaction(data, {
-          apiKey,
-          deviceId: posDeviceId
-        });
-      }
+    //   if (type === 'product_sales') {
+    //     await umbraSystemsHelper.sendPosProductSales(data, {
+    //       apiKey,
+    //       deviceId: posDeviceId
+    //     });
+    //   } else if (type === 'grand_accumulated_sales') {
+    //     await umbraSystemsHelper.sendPosGrandAccumulatedSales(data, {
+    //       apiKey,
+    //       deviceId: posDeviceId
+    //     });
+    //   } else if (type === 'pos_transaction') {
+    //     await umbraSystemsHelper.sendPosTransaction(data, {
+    //       apiKey,
+    //       deviceId: posDeviceId
+    //     });
+    //   }
 
-      console.log('Uploaded from queue:', type, createdAt);
-      await UmbraSystemsReport.findOneAndDelete({ _id: report._id });
-    }
+    //   console.log('Uploaded from queue:', type, createdAt);
+    //   await UmbraSystemsReport.findOneAndDelete({ _id: report._id });
+    // }
 
     res.status(200).json({
       message: 'OK'

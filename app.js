@@ -36,27 +36,25 @@ app.use(morgan('tiny'));
 
 const allowedOrigins = [FRONTEND_ORIGIN, UMBRASYSTEMS_API];
 
-app.use(cors());
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Check if the origin is in the allowed origins array
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+};
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-    );
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
-  }
+// Use the CORS middleware with the options
+app.use(cors(corsOptions));
 
-  // Preflight request handling
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
-  next();
-});
+// Handle preflight requests for all routes
+app.options('*', cors(corsOptions));
 
 const loginRoutes = require('./routes/login');
 const orderRoutes = require('./routes/order');
