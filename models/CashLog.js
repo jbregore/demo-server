@@ -121,12 +121,12 @@ const CashLogSchema = mongoose.Schema(
     { timestamps: true }
 );
 
-// CashLogSchema.pre('save', function(next) {
-//     const [date, time] = moment().format('YYYY-MM-DD HH:mm:ss').split(' ')
-//     this.createdAt = new Date(`${date}T${time}Z`)
-//     this.updatedAt = new Date(`${date}T${time}Z`)
-//     next()
-// })  
+CashLogSchema.pre('save', function(next) {
+    const [date, time] = moment().utc().format('YYYY-MM-DD HH:mm:ss').split(' ')
+    this.createdAt = new Date(`${date}T${time}Z`)
+    this.updatedAt = new Date(`${date}T${time}Z`)
+    next()
+})  
 
 
 module.exports = mongoose.model("Cash Log", CashLogSchema);
