@@ -440,6 +440,7 @@ exports.getXReadData = async (req, res, next) => {
       ...cashierFilter
     });
 
+    console.log("dateFilter ", dateFilter)
     const cashTakeOutLog = await CashLog.findOne(
       {
         type: 'cash takeout',
