@@ -28,10 +28,10 @@ exports.getXReadData = async (req, res, next) => {
 
   const cashierFilter = {
     employeeId: employeeId,
-    createdAt: {
-      $gte: new Date(`${currentDate}T${timeFrom}`), // No need to remove timezone since this was fetched from mongodb with the correct time.
-      $lte: new Date(`${currentDate}T${timeTo}Z`)
-    }
+    // createdAt: {
+    //   $gte: new Date(`${currentDate}T${timeFrom}`), // No need to remove timezone since this was fetched from mongodb with the correct time.
+    //   $lte: new Date(`${currentDate}T${timeTo}Z`)
+    // }
   };
   console.log(`Cashier filter is `, cashierFilter);
 
